@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tes Sumatif IPAS Bab 4: Iklim dan Perubahannya</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fc;
+        }
+        .pastel-gradient {
+            background: linear-gradient(135deg, #e0f2fe 0%, #fae8ff 50%, #fef3c7 100%);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <header class="pastel-gradient shadow-sm py-4 px-6 border-b border-purple-100 sticky top-0 z-50">
+        <div class="max-w-2xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full bg-sky-200 flex items-center justify-center text-sky-700 font-bold text-lg shadow-sm">
+                    <i class="fa-solid fa-cloud-sun"></i>
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-lg font-bold text-slate-800">IPAS Paket A</h1>
+                    <p class="text-xs text-slate-600">Bab 4: Iklim & Perubahannya</p>
+                </div>
+            </div>
+            <button id="tutorBtn" onclick="openTutorModal()" class="text-xs bg-white/90 hover:bg-white text-purple-700 font-semibold px-3.5 py-2 rounded-xl shadow-sm border border-purple-200 transition flex items-center gap-1.5">
+                <i class="fa-solid fa-shield-halved text-purple-500"></i> Panel Tutor
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-2xl w-full mx-auto p-4 sm:p-6 mb-12">
+
+        <!-- Student Identity Form Section -->
+        <section id="identitySection" class="bg-white rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-100 border border-slate-100">
+            <div class="text-center mb-6">
+                <span class="inline-block bg-sky-100 text-sky-800 text-xs font-semibold px-3 py-1 rounded-full mb-2">Tes Sumatif Resmi</span>
+                <h2 class="text-xl sm:text-2xl font-bold text-slate-800">Selamat Datang, Sobat Belajar!</h2>
+                <p class="text-sm text-slate-500 mt-1">Silakan isi identitas diri kamu terlebih dahulu sebelum memulai tes.</p>
+            </div>
+
+            <form id="identityForm" onsubmit="startTest(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Nama Lengkap</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+                        <input type="text" id="studentName" required placeholder="Contoh: Budi Santoso"
+                            class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-400 focus:bg-white transition">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Kelas</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                            <i class="fa-solid fa-school"></i>
+                        </span>
+                        <input type="text" id="studentClass" required placeholder="Contoh: Paket A Setara Kelas 5/6"
+                            class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-400 focus:bg-white transition">
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-gradient-to-r from-sky-400 to-indigo-500 text-white font-semibold py-3.5 px-6 rounded-2xl shadow-lg shadow-sky-200 hover:opacity-95 active:scale-[0.99] transition flex items-center justify-center gap-2">
+                        <span>Mulai Tes Sekarang</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Quiz Questions Section -->
+        <section id="quizSection" class="hidden space-y-6">
+            <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex items-center justify-between">
+                <div>
+                    <span id="questionCategoryTag" class="text-xs font-bold px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-600">Pilihan Ganda</span>
+                    <h3 id="questionProgressText" class="text-sm font-semibold text-slate-700 mt-1">Soal 1 dari 40</h3>
+                </div>
+                <div class="w-32 bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                    <div id="progressBar" class="bg-indigo-500 h-2.5 rounded-full transition-all duration-300" style="width: 2.5%;"></div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-100 border border-slate-100">
+                <div id="questionContainer" class="min-h-[180px]"></div>
+
+                <div class="flex items-center justify-between mt-8 pt-4 border-t border-slate-100">
+                    <button id="prevBtn" type="button" onclick="prevQuestion()" class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-sm font-semibold hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-left"></i> Sebelumnya
+                    </button>
+                    <button id="nextBtn" type="button" onclick="nextQuestion()" class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold shadow-md shadow-indigo-100 transition flex items-center gap-2">
+                        Selanjutnya <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Result Section -->
+        <section id="resultSection" class="hidden bg-white rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-100 border border-slate-100 text-center space-y-6">
+            <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-3xl shadow-inner">
+                <i class="fa-solid fa-award"></i>
+            </div>
+            <div>
+                <span class="bg-emerald-50 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full">Tes Selesai!</span>
+                <h2 class="text-2xl font-bold text-slate-800 mt-2">Kerja Bagus, <span id="resultStudentName">Siswa</span>!</h2>
+                <p class="text-sm text-slate-500 mt-1">Kamu telah menyelesaikan Tes Sumatif Bab 4: Iklim dan Perubahannya.</p>
+            </div>
+
+            <div class="bg-slate-50 rounded-2xl p-6 border border-slate-200/60 max-w-sm mx-auto">
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Skor Akhir Kamu</p>
+                <div id="finalScoreDisplay" class="text-5xl font-extrabold text-indigo-600 my-2">0</div>
+                <p id="scoreFeedbackMessage" class="text-xs text-slate-600 font-medium">Pertahankan terus semangat belajarmu!</p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+                <button type="button" onclick="reviewAnswers()" class="px-5 py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-list-check"></i> Lihat Rekap & Pembahasan
+                </button>
+                <button type="button" onclick="restartTest()" class="px-5 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold shadow-md shadow-indigo-100 transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-rotate-right"></i> Ulangi Tes (Nama Lain)
+                </button>
+            </div>
+        </section>
+
+        <!-- Review Section -->
+        <section id="reviewSection" class="hidden space-y-4">
+            <div class="flex justify-between items-center bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+                <h3 class="font-bold text-slate-800 text-sm"><i class="fa-solid fa-clipboard-question text-indigo-500 mr-2"></i>Rekap Jawaban & Pembahasan</h3>
+                <button type="button" onclick="backToResult()" class="text-xs text-indigo-600 font-semibold hover:underline">Tutup Rekap</button>
+            </div>
+            <div id="reviewContainer" class="space-y-4"></div>
+        </section>
+
+    </main>
+
+    <div id="tutorModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl border border-slate-100 max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center pb-4 border-b border-slate-100">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-shield-halved text-purple-600 text-lg"></i>
+                    <h3 class="font-bold text-slate-800 text-base">Panel Tutor / Guru (Cloud Sync)</h3>
+                </div>
+                <button type="button" onclick="closeTutorModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center hover:bg-slate-200 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div class="py-4 overflow-y-auto flex-1 space-y-3">
+                <p class="text-xs text-slate-500">Daftar riwayat pengerjaan tes seluruh siswa yang masuk secara otomatis dari berbagai perangkat via link:</p>
+                <div id="tutorRecordsContainer" class="space-y-2.5">
+                    <div class="text-center py-6 text-slate-400 text-xs">Memuat data dari server...</div>
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-slate-100 flex justify-between items-center">
+                <span id="syncStatus" class="text-xs text-emerald-600 font-medium"><i class="fa-solid fa-circle-dot mr-1"></i> Terhubung ke Cloud</span>
+                <button type="button" onclick="closeTutorModal()" class="px-5 py-2.5 bg-slate-100 text-slate-700 rounded-xl text-xs font-semibold hover:bg-slate-200 transition">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-ipas-bab4-app';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "demo", projectId: "demo" };
+
+        let db = null;
+        let auth = null;
+        let cloudRecords = [];
+
+        try {
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+
+            const initAuth = async () => {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    try {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } catch (err) {
+                        await signInAnonymously(auth);
+                    }
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                // Strict compliance with Rule 1 & Rule 2: public path collection without compound queries
+                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'student_submissions');
+                onSnapshot(colRef, (snapshot) => {
+                    cloudRecords = [];
+                    snapshot.forEach(docSnap => {
+                        cloudRecords.push({ id: docSnap.id, ...docSnap.data() });
+                    });
+                    cloudRecords.sort((a, b) => new Date(b.timestamp || 0) - new Date(a.timestamp || 0));
+                    updateTutorUI();
+                }, (error) => {
+                    console.error("Firestore listener error:", error);
+                });
+            };
+
+            initAuth();
+        } catch (e) {
+            console.error("Firebase init failed, running in local fallback mode:", e);
+            document.getElementById('syncStatus').innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1 text-amber-500"></i> Mode Offline`;
+        }
+
+        const questionsData = [
+            {
+                id: 1, type: "mc", category: "A. Pilihan Ganda",
+                question: "Menurut materi Bab 4, cuaca adalah ....",
+                options: [
+                    "A. rata-rata keadaan udara selama beberapa dekade",
+                    "B. keadaan udara pada suatu tempat dengan batasan jangka waktu",
+                    "C. perubahan iklim selama ratusan tahun",
+                    "D. keadaan musim selama satu tahun"
+                ],
+                answer: 1
+            },
+            {
+                id: 2, type: "mc", category: "A. Pilihan Ganda",
+                question: "Suatu daerah dapat dikatakan memiliki iklim tertentu setelah dilakukan pencatatan kondisi cuaca sekitar ....",
+                options: [
+                    "A. 1–2 hari",
+                    "B. 1–2 minggu",
+                    "C. 10–30 tahun",
+                    "D. 1 bulan"
+                ],
+                answer: 2
+            },
+            {
+                id: 3, type: "mc", category: "A. Pilihan Ganda",
+                question: "Pada musim hujan, kondisi yang dapat terjadi adalah ....",
+                options: [
+                    "A. tanah menjadi retak karena kekurangan air",
+                    "B. tanaman terlihat lebih hijau dan segar",
+                    "C. salju menutupi sebagian besar wilayah",
+                    "D. suhu selalu berada di bawah 0°C"
+                ],
+                answer: 1
+            },
+            {
+                id: 4, type: "mc", category: "A. Pilihan Ganda",
+                question: "Musim panas terjadi ....",
+                options: [
+                    "A. sebelum musim semi",
+                    "B. setelah musim semi",
+                    "C. setelah musim gugur",
+                    "D. setelah musim dingin"
+                ],
+                answer: 1
+            },
+            {
+                id: 5, type: "mc", category: "A. Pilihan Ganda",
+                question: "Hewan seperti beruang melakukan hibernasi pada ....",
+                options: [
+                    "A. musim panas",
+                    "B. musim hujan",
+                    "C. musim dingin",
+                    "D. musim kemarau"
+                ],
+                answer: 2
+            },
+            {
+                id: 6, type: "mc", category: "A. Pilihan Ganda",
+                question: "Iklim matahari didasarkan pada ....",
+                options: [
+                    "A. jumlah panas Matahari yang diterima suatu wilayah",
+                    "B. jumlah hujan yang turun setiap hari",
+                    "C. jumlah kendaraan di suatu wilayah",
+                    "D. jumlah tumbuhan di suatu daerah"
+                ],
+                answer: 0
+            },
+            {
+                id: 7, type: "mc", category: "A. Pilihan Ganda",
+                question: "Semakin dekat suatu wilayah dengan garis khatulistiwa, maka wilayah tersebut menerima ....",
+                options: [
+                    "A. semakin sedikit sinar Matahari",
+                    "B. semakin banyak sinar Matahari",
+                    "C. tidak mendapatkan sinar Matahari",
+                    "D. hanya mendapatkan sinar Matahari saat musim panas"
+                ],
+                answer: 1
+            },
+            {
+                id: 8, type: "mc", category: "A. Pilihan Ganda",
+                question: "Salah satu penyebab pencemaran udara yang berasal dari faktor alam adalah ....",
+                options: [
+                    "A. kendaraan bermotor",
+                    "B. limbah pabrik",
+                    "C. letusan gunung berapi",
+                    "D. pembakaran bahan bakar kendaraan"
+                ],
+                answer: 2
+            },
+            {
+                id: 9, type: "mc", category: "A. Pilihan Ganda",
+                question: "Karbon dioksida dalam jumlah yang semakin banyak dapat menyebabkan ....",
+                options: [
+                    "A. semakin banyak panas terperangkap",
+                    "B. Bumi semakin dingin",
+                    "C. tidak ada perubahan pada suhu Bumi",
+                    "D. semua panas langsung keluar ke angkasa"
+                ],
+                answer: 0
+            },
+            {
+                id: 10, type: "mc", category: "A. Pilihan Ganda",
+                question: "Salah satu akibat naiknya permukaan air laut adalah ....",
+                options: [
+                    "A. pulau-pulau kecil berpotensi mengalami banjir",
+                    "B. semua daerah menjadi lebih dingin",
+                    "C. es di kutub semakin tebal",
+                    "D. air laut semakin sedikit"
+                ],
+                answer: 0
+            },
+            {
+                id: 11, type: "complex", category: "B. Pilihan Ganda Kompleks",
+                question: "Pernyataan yang tepat mengenai cuaca adalah .... (Pilih semua yang benar)",
+                options: [
+                    "A. dapat berubah dengan cepat",
+                    "B. dapat diamati pada suatu tempat",
+                    "C. dapat terjadi dalam waktu singkat",
+                    "D. membutuhkan waktu ratusan tahun untuk berubah"
+                ],
+                correctAnswers: [0, 1, 2]
+            },
+            {
+                id: 12, type: "complex", category: "B. Pilihan Ganda Kompleks",
+                question: "Hal-hal yang dapat diamati untuk mengetahui kondisi musim di suatu daerah antara lain .... (Pilih semua yang benar)",
+                options: [
+                    "A. kondisi cuaca",
+                    "B. suhu dan temperatur",
+                    "C. kondisi angin",
+                    "D. hewan atau tumbuhan yang dapat diamati"
+                ],
+                correctAnswers: [0, 1, 2, 3]
+            },
+            {
+                id: 13, type: "complex", category: "B. Pilihan Ganda Kompleks",
+                question: "Ciri-ciri musim panas menurut materi adalah .... (Pilih semua yang benar)",
+                options: [
+                    "A. suhu udara sangat panas",
+                    "B. kelembapan cukup tinggi terutama pada siang hari",
+                    "C. terjadi setelah musim semi",
+                    "D. selalu disertai salju"
+                ],
+                correctAnswers: [0, 1, 2]
+            },
+            {
+                id: 14, type: "complex", category: "B. Pilihan Ganda Kompleks",
+                question: "Ciri-ciri musim dingin menurut materi adalah .... (Pilih semua yang benar)",
+                options: [
+                    "A. biasa disebut musim salju",
+                    "B. suhu sangat dingin",
+                    "C. salju dapat menutupi sebagian besar wilayah",
+                    "D. tumbuhan berbunga dan tumbuh subur kembali"
+                ],
+                correctAnswers: [0, 1, 2]
+            },
+            {
+                id: 15, type: "complex", category: "B. Pilihan Ganda Kompleks",
+                question: "Iklim subtropis terdapat pada negara yang cukup jauh dari khatulistiwa, seperti .... (Pilih semua yang benar)",
+                options: [
+                    "A. Jepang",
+                    "B. Korea",
+                    "C. Nepal",
+                    "D. Indonesia sebagai contoh utama iklim subtropis"
+                ],
+                correctAnswers: [0, 1, 2]
+            },
+            {
+                id: 16, type: "complex", category: "B. Pilihan Ganda Kompleks",
+                question: "Perubahan iklim dapat memengaruhi berbagai hal karena .... (Pilih semua yang benar)",
+                options: [
+                    "A. Bumi merupakan sebuah sistem yang saling terhubung",
+                    "B. perubahan pada satu area dapat memengaruhi area lainnya",
+                    "C. kenaikan suhu merupakan salah satu awal perubahan iklim",
+                    "D. perubahan iklim hanya memengaruhi manusia"
+                ],
+                correctAnswers: [0, 1, 2]
+            },
+            {
+                id: 17, type: "complex", category: "B. Pilihan Ganda Kompleks",
+                question: "Yang termasuk faktor atau aktivitas manusia yang berkaitan dengan perubahan iklim adalah ....",
+                options: [
+                    "A. pembukaan lahan untuk perumahan",
+                    "B. penebangan pohon",
+                    "C. peningkatan kegiatan yang menghasilkan emisi",
+                    "D. menjaga fungsi hutan"
+                ],
+                correctAnswers: [0, 1, 2]
+            },
+            {
+                id: 18, type: "complex", category: "B. Pilihan Ganda Kompleks",
+                question: "Gas atau bahan yang ditampilkan dalam ilustrasi efek rumah kaca adalah ....",
+                options: [
+                    "A. karbon dioksida dari emisi minyak bumi dan batu bara",
+                    "B. gas metana dari kotoran ternak",
+                    "C. CFC dan HCFC dari gas hasil emisi pendingin",
+                    "D. gas yang berasal dari kendaraan bermotor"
+                ],
+                correctAnswers: [0, 1, 2, 3]
+            },
+            {
+                id: 19, type: "complex", category: "B. Pilihan Ganda Kompleks",
+                question: "Dampak pemanasan global yang terdapat dalam Bab 4 meliputi ....",
+                options: [
+                    "A. kebakaran hutan",
+                    "B. meningkatnya kerentanan terkena penyakit",
+                    "C. krisis air bersih",
+                    "D. naiknya permukaan air laut"
+                ],
+                correctAnswers: [0, 1, 2, 3]
+            },
+            {
+                id: 20, type: "complex", category: "B. Pilihan Ganda Kompleks",
+                question: "Pernyataan yang tepat tentang pencemaran lingkungan adalah ....",
+                options: [
+                    "A. pencemaran dapat terjadi pada udara",
+                    "B. pencemaran dapat terjadi pada air",
+                    "C. pencemaran dapat terjadi pada tanah",
+                    "D. kegiatan manusia dapat menjadi penyebab pencemaran"
+                ],
+                correctAnswers: [0, 1, 2, 3]
+            },
+            {
+                id: 21, type: "tf", category: "C. Benar atau Salah",
+                question: "Musim merupakan peristiwa yang berkaitan dengan keadaan iklim dan berubah dalam jangka waktu tertentu dalam setahun.",
+                answer: true
+            },
+            {
+                id: 22, type: "tf", category: "C. Benar atau Salah",
+                question: "Periode musim selalu sama di setiap daerah.",
+                answer: false
+            },
+            {
+                id: 23, type: "tf", category: "C. Benar atau Salah",
+                question: "Musim hujan dapat ditandai dengan angin yang berembus kencang dan awan yang sering mendung.",
+                answer: true
+            },
+            {
+                id: 24, type: "tf", category: "C. Benar atau Salah",
+                question: "Pada musim kemarau, kelembapan udara cenderung rendah.",
+                answer: true
+            },
+            {
+                id: 25, type: "tf", category: "C. Benar atau Salah",
+                question: "Musim semi disebut juga musim bunga karena banyak bunga mulai bermekaran.",
+                answer: true
+            },
+            {
+                id: 26, type: "tf", category: "C. Benar atau Salah",
+                question: "Musim gugur merupakan musim yang terjadi sebelum musim panas.",
+                answer: false
+            },
+            {
+                id: 27, type: "tf", category: "C. Benar atau Salah",
+                question: "Iklim matahari dipengaruhi oleh posisi suatu kawasan terhadap garis lintang khatulistiwa.",
+                answer: true
+            },
+            {
+                id: 28, type: "tf", category: "C. Benar atau Salah",
+                question: "Efek rumah kaca secara alami membantu membuat Bumi cukup hangat sehingga layak dihuni.",
+                answer: true
+            },
+            {
+                id: 29, type: "tf", category: "C. Benar atau Salah",
+                question: "Semakin banyak gas karbon dioksida yang dihasilkan kegiatan manusia, semakin banyak panas yang dapat terperangkap.",
+                answer: true
+            },
+            {
+                id: 30, type: "tf", category: "C. Benar atau Salah",
+                question: "Letusan gunung berapi tidak dapat menyebabkan pencemaran udara.",
+                answer: false
+            },
+            {
+                id: 31, type: "match", category: "D. Mencocokkan",
+                term: "31. Musim kemarau",
+                options: [
+                    "A. Penurunan kualitas atmosfer karena adanya unsur berbahaya yang tercampur dalam udara",
+                    "B. Suhu udara sangat panas dan kelembapan cukup tinggi",
+                    "C. Musim ketika sinar Matahari lebih terik dan air dapat berkurang",
+                    "D. Peningkatan suhu Bumi yang terjadi secara global",
+                    "E. Musim setelah musim panas ketika banyak daun berguguran"
+                ],
+                answer: 2
+            },
+            {
+                id: 32, type: "match", category: "D. Mencocokkan",
+                term: "32. Musim panas",
+                options: [
+                    "A. Penurunan kualitas atmosfer karena adanya unsur berbahaya yang tercampur dalam udara",
+                    "B. Suhu udara sangat panas dan kelembapan cukup tinggi",
+                    "C. Musim ketika sinar Matahari lebih terik dan air dapat berkurang",
+                    "D. Peningkatan suhu Bumi yang terjadi secara global",
+                    "E. Musim setelah musim panas ketika banyak daun berguguran"
+                ],
+                answer: 1
+            },
+            {
+                id: 33, type: "match", category: "D. Mencocokkan",
+                term: "33. Musim gugur",
+                options: [
+                    "A. Penurunan kualitas atmosfer karena adanya unsur berbahaya yang tercampur dalam udara",
+                    "B. Suhu udara sangat panas dan kelembapan cukup tinggi",
+                    "C. Musim ketika sinar Matahari lebih terik dan air dapat berkurang",
+                    "D. Peningkatan suhu Bumi yang terjadi secara global",
+                    "E. Musim setelah musim panas ketika banyak daun berguguran"
+                ],
+                answer: 4
+            },
+            {
+                id: 34, type: "match", category: "D. Mencocokkan",
+                term: "34. Pemanasan global",
+                options: [
+                    "A. Penurunan kualitas atmosfer karena adanya unsur berbahaya yang tercampur dalam udara",
+                    "B. Suhu udara sangat panas dan kelembapan cukup tinggi",
+                    "C. Musim ketika sinar Matahari lebih terik dan air dapat berkurang",
+                    "D. Peningkatan suhu Bumi yang terjadi secara global",
+                    "E. Musim setelah musim panas ketika banyak daun berguguran"
+                ],
+                answer: 3
+            },
+            {
+                id: 35, type: "match", category: "D. Mencocokkan",
+                term: "35. Pencemaran udara",
+                options: [
+                    "A. Penurunan kualitas atmosfer karena adanya unsur berbahaya yang tercampur dalam udara",
+                    "B. Suhu udara sangat panas dan kelembapan cukup tinggi",
+                    "C. Musim ketika sinar Matahari lebih terik dan air dapat berkurang",
+                    "D. Peningkatan suhu Bumi yang terjadi secara global",
+                    "E. Musim setelah musim panas ketika banyak daun berguguran"
+                ],
+                answer: 0
+            },
+            {
+                id: 36, type: "short", category: "E. Jawaban Singkat",
+                question: "Apa perbedaan cuaca dan iklim?",
+                expectedKeywords: ["cuaca", "jangka waktu", "singkat", "iklim", "panjang", "rata-rata"]
+            },
+            {
+                id: 37, type: "short", category: "E. Jawaban Singkat",
+                question: "Mengapa wilayah yang dekat dengan garis khatulistiwa memiliki iklim tropis?",
+                expectedKeywords: ["khatulistiwa", "sinar", "matahari", "panas", "banyak"]
+            },
+            {
+                id: 38, type: "short", category: "E. Jawaban Singkat",
+                question: "Mengapa hutan penting dalam menjaga lingkungan?",
+                expectedKeywords: ["air", "tanah", "banjir", "longsor", "kesuburan", "habitat"]
+            },
+            {
+                id: 39, type: "short", category: "E. Jawaban Singkat",
+                question: "Apa yang dimaksud dengan efek rumah kaca?",
+                expectedKeywords: ["atmosfer", "matahari", "panas", "terperangkap", "menahan"]
+            },
+            {
+                id: 40, type: "short", category: "E. Jawaban Singkat",
+                question: "Sebutkan tiga dampak efek rumah kaca atau pemanasan global yang terdapat dalam materi Bab 4!",
+                expectedKeywords: ["kebakaran", "es", "kutub", "penyakit", "air bersih", "laut", "banjir"]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let studentAnswers = {};
+        let studentInfo = { name: "", class: "" };
+
+        // Enforce 1 test per student silently without notification popup
+        function hasStudentCompleted(name, studentClass) {
+            try {
+                const key = `completed_sumatif4_${name.trim().toLowerCase()}_${studentClass.trim().toLowerCase()}`;
+                return localStorage.getItem(key) === 'true';
+            } catch(e) {
+                return false;
+            }
+        }
+
+        function markStudentCompleted(name, studentClass) {
+            try {
+                const key = `completed_sumatif4_${name.trim().toLowerCase()}_${studentClass.trim().toLowerCase()}`;
+                localStorage.setItem(key, 'true');
+            } catch(e) {}
+        }
+
+        window.startTest = function(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('studentName').value.trim();
+            const classInput = document.getElementById('studentClass').value.trim();
+            
+            if(!nameInput || !classInput) return;
+
+            // If student already completed, silently clear input and prevent restart without alert
+            if (hasStudentCompleted(nameInput, classInput)) {
+                document.getElementById('studentName').value = '';
+                document.getElementById('studentClass').value = '';
+                return;
+            }
+
+            studentInfo.name = nameInput;
+            studentInfo.class = classInput;
+            studentAnswers = {};
+            currentQuestionIndex = 0;
+
+            document.getElementById('identitySection').classList.add('hidden');
+            document.getElementById('quizSection').classList.remove('hidden');
+            
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const q = questionsData[currentQuestionIndex];
+            const totalQ = questionsData.length;
+            
+            document.getElementById('questionCategoryTag').innerText = q.category;
+            document.getElementById('questionProgressText').innerText = `Soal ${currentQuestionIndex + 1} dari ${totalQ}`;
+            const progressPercent = ((currentQuestionIndex + 1) / totalQ) * 100;
+            document.getElementById('progressBar').style.width = `${progressPercent}%`;
+
+            let htmlContent = `<h4 class="text-base sm:text-lg font-bold text-slate-800 mb-4">${currentQuestionIndex + 1}. ${q.question || q.term}</h4>`;
+
+            if (q.type === 'mc') {
+                htmlContent += `<div class="space-y-2.5">`;
+                q.options.forEach((opt, idx) => {
+                    const isSelected = studentAnswers[q.id] === idx;
+                    htmlContent += `
+                        <label class="flex items-center p-3.5 rounded-2xl border ${isSelected ? 'border-sky-500 bg-sky-50/60' : 'border-slate-200 bg-slate-50/50 hover:bg-slate-50'} cursor-pointer transition">
+                            <input type="radio" name="q_${q.id}" value="${idx}" ${isSelected ? 'checked' : ''} onchange="saveAnswer(${q.id}, ${idx})" class="w-4 h-4 text-sky-600 focus:ring-sky-400">
+                            <span class="ml-3 text-sm text-slate-700 font-medium">${opt}</span>
+                        </label>`;
+                });
+                htmlContent += `</div>`;
+            } else if (q.type === 'complex') {
+                htmlContent += `<p class="text-xs text-indigo-600 font-medium mb-3"><i class="fa-solid fa-circle-info mr-1"></i> Pilih semua jawaban yang menurutmu benar:</p><div class="space-y-2.5">`;
+                q.options.forEach((opt, idx) => {
+                    const currentSelected = studentAnswers[q.id] || [];
+                    const isChecked = currentSelected.includes(idx);
+                    htmlContent += `
+                        <label class="flex items-center p-3.5 rounded-2xl border ${isChecked ? 'border-indigo-500 bg-indigo-50/60' : 'border-slate-200 bg-slate-50/50 hover:bg-slate-50'} cursor-pointer transition">
+                            <input type="checkbox" name="q_${q.id}" value="${idx}" ${isChecked ? 'checked' : ''} onchange="saveComplexAnswer(${q.id}, ${idx})" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-400">
+                            <span class="ml-3 text-sm text-slate-700 font-medium">${opt}</span>
+                        </label>`;
+                });
+                htmlContent += `</div>`;
+            } else if (q.type === 'tf') {
+                const currentVal = studentAnswers[q.id];
+                htmlContent += `
+                    <div class="grid grid-cols-2 gap-3 pt-2">
+                        <button type="button" onclick="saveTFAnswer(${q.id}, true)" class="p-4 rounded-2xl border text-sm font-semibold flex items-center justify-center gap-2 transition ${currentVal === true ? 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-sm' : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100'}">
+                            <i class="fa-solid fa-circle-check text-emerald-500"></i> Benar
+                        </button>
+                        <button type="button" onclick="saveTFAnswer(${q.id}, false)" class="p-4 rounded-2xl border text-sm font-semibold flex items-center justify-center gap-2 transition ${currentVal === false ? 'border-rose-500 bg-rose-50 text-rose-700 shadow-sm' : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100'}">
+                            <i class="fa-solid fa-circle-xmark text-rose-500"></i> Salah
+                        </button>
+                    </div>`;
+            } else if (q.type === 'match') {
+                htmlContent += `<div class="space-y-3 pt-1"><p class="text-xs text-slate-500 mb-2">Pilih pasangannya di Kolom B:</p>`;
+                q.options.forEach((opt, idx) => {
+                    const isSelected = studentAnswers[q.id] === idx;
+                    htmlContent += `
+                        <label class="flex items-start p-3.5 rounded-2xl border ${isSelected ? 'border-sky-500 bg-sky-50/60' : 'border-slate-200 bg-slate-50/50 hover:bg-slate-50'} cursor-pointer transition">
+                            <input type="radio" name="q_${q.id}" value="${idx}" ${isSelected ? 'checked' : ''} onchange="saveAnswer(${q.id}, ${idx})" class="mt-0.5 w-4 h-4 text-sky-600 focus:ring-sky-400">
+                            <span class="ml-3 text-xs sm:text-sm text-slate-700 font-medium">${opt}</span>
+                        </label>`;
+                });
+                htmlContent += `</div>`;
+            } else if (q.type === 'short') {
+                const currentText = studentAnswers[q.id] || '';
+                htmlContent += `
+                    <div class="pt-2">
+                        <textarea rows="4" oninput="saveShortAnswer(${q.id}, this.value)" placeholder="Tuliskan jawaban singkatmu di sini..."
+                            class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-400 focus:bg-white transition">${currentText}</textarea>
+                    </div>`;
+            }
+
+            document.getElementById('questionContainer').innerHTML = htmlContent;
+
+            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
+            const nextBtn = document.getElementById('nextBtn');
+            if (currentQuestionIndex === totalQ - 1) {
+                nextBtn.innerHTML = `Selesai & Kirim <i class="fa-solid fa-paper-plane ml-1"></i>`;
+                nextBtn.className = "px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold shadow-md shadow-emerald-100 transition flex items-center gap-2";
+            } else {
+                nextBtn.innerHTML = `Selanjutnya <i class="fa-solid fa-arrow-right ml-1"></i>`;
+                nextBtn.className = "px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold shadow-md shadow-indigo-100 transition flex items-center gap-2";
+            }
+        }
+
+        window.saveAnswer = function(qId, val) { studentAnswers[qId] = val; }
+        window.saveComplexAnswer = function(qId, idx) {
+            if (!studentAnswers[qId]) studentAnswers[qId] = [];
+            const arr = studentAnswers[qId];
+            const pos = arr.indexOf(idx);
+            if (pos > -1) arr.splice(pos, 1);
+            else arr.push(idx);
+            renderQuestion();
+        }
+        window.saveTFAnswer = function(qId, val) { studentAnswers[qId] = val; renderQuestion(); }
+        window.saveShortAnswer = function(qId, val) { studentAnswers[qId] = val; }
+
+        window.prevQuestion = function() {
+            if (currentQuestionIndex > 0) { currentQuestionIndex--; renderQuestion(); }
+        }
+
+        window.nextQuestion = function() {
+            if (currentQuestionIndex < questionsData.length - 1) { currentQuestionIndex++; renderQuestion(); }
+            else { submitQuiz(); }
+        }
+
+        function calculateScore() {
+            let totalPointsEarned = 0;
+            questionsData.forEach(q => {
+                const userAns = studentAnswers[q.id];
+                if (userAns === undefined || userAns === null || (Array.isArray(userAns) && userAns.length === 0) || userAns === "") return;
+
+                if (q.type === 'mc' || q.type === 'match' || q.type === 'tf') {
+                    if (userAns === q.answer) totalPointsEarned += 2.5;
+                } else if (q.type === 'complex') {
+                    const correctSet = q.correctAnswers;
+                    const userSet = userAns;
+                    let correctSelections = 0, incorrectSelections = 0;
+                    userSet.forEach(idx => {
+                        if (correctSet.includes(idx)) correctSelections++;
+                        else incorrectSelections++;
+                    });
+                    if (incorrectSelections === 0 && correctSelections > 0) {
+                        totalPointsEarned += (2.5 * (correctSelections / correctSet.length));
+                    } else if (incorrectSelections > 0 && correctSelections > 0) {
+                        totalPointsEarned += (2.5 * Math.max(0, (correctSelections - incorrectSelections) / correctSet.length));
+                    }
+                } else if (q.type === 'short') {
+                    const text = String(userAns).toLowerCase();
+                    let matchCount = 0;
+                    q.expectedKeywords.forEach(kw => { if (text.includes(kw)) matchCount++; });
+                    if (matchCount >= 2) totalPointsEarned += 2.5;
+                    else if (matchCount === 1) totalPointsEarned += 1.25;
+                }
+            });
+            return Math.round(totalPointsEarned);
+        }
+
+        async function submitQuiz() {
+            const finalScore = calculateScore();
+            
+            document.getElementById('resultStudentName').innerText = studentInfo.name;
+            document.getElementById('finalScoreDisplay').innerText = finalScore;
+            
+            let feedback = "Pertahankan semangat belajarmu!";
+            if (finalScore >= 85) feedback = "Luar biasa! Pemahamanmu tentang iklim sangat hebat!";
+            else if (finalScore >= 70) feedback = "Bagus sekali! Terus tingkatkan belajarmu ya.";
+            document.getElementById('scoreFeedbackMessage').innerText = feedback;
+
+            markStudentCompleted(studentInfo.name, studentInfo.class);
+
+            // Save submission to Firestore cloud so sender/tutor receives it automatically on any device link
+            try {
+                if (db) {
+                    const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'student_submissions');
+                    await addDoc(colRef, {
+                        name: studentInfo.name,
+                        class: studentInfo.class,
+                        score: finalScore,
+                        answers: JSON.stringify(studentAnswers),
+                        timestamp: new Date().toISOString()
+                    });
+                }
+            } catch (err) {
+                console.error("Failed saving to cloud:", err);
+                cloudRecords.unshift({
+                    name: studentInfo.name,
+                    class: studentInfo.class,
+                    score: finalScore,
+                    timestamp: new Date().toISOString()
+                });
+                updateTutorUI();
+            }
+
+            document.getElementById('quizSection').classList.add('hidden');
+            document.getElementById('resultSection').classList.remove('hidden');
+        }
+
+        window.restartTest = function() {
+            document.getElementById('resultSection').classList.add('hidden');
+            document.getElementById('reviewSection').classList.add('hidden');
+            document.getElementById('identitySection').classList.remove('hidden');
+            document.getElementById('studentName').value = '';
+            document.getElementById('studentClass').value = '';
+        }
+
+        window.reviewAnswers = function() {
+            document.getElementById('resultSection').classList.add('hidden');
+            document.getElementById('reviewSection').classList.remove('hidden');
+
+            let reviewHtml = '';
+            questionsData.forEach((q, idx) => {
+                const userAns = studentAnswers[q.id];
+                let userAnsText = "-";
+                
+                if (q.type === 'mc' || q.type === 'match') {
+                    userAnsText = userAns !== undefined ? q.options[userAns] : "Tidak dijawab";
+                } else if (q.type === 'complex') {
+                    userAnsText = (userAns && userAns.length > 0) ? userAns.map(i => q.options[i]).join(', ') : "Tidak dijawab";
+                } else if (q.type === 'tf') {
+                    userAnsText = userAns === true ? "Benar" : (userAns === false ? "Salah" : "Tidak dijawab");
+                } else if (q.type === 'short') {
+                    userAnsText = userAns ? `"${userAns}"` : "Tidak dijawab";
+                }
+
+                reviewHtml += `
+                    <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 text-xs sm:text-sm space-y-2">
+                        <div class="flex justify-between items-center text-slate-400 font-medium text-xs">
+                            <span>Soal ${idx + 1} (${q.category})</span>
+                        </div>
+                        <p class="font-bold text-slate-800">${q.question || q.term}</p>
+                        <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-slate-700">
+                            <span class="font-semibold text-slate-500 block mb-0.5 text-xs">Jawaban Kamu:</span>
+                            <span>${userAnsText}</span>
+                        </div>
+                    </div>`;
+            });
+            document.getElementById('reviewContainer').innerHTML = reviewHtml;
+        }
+
+        window.backToResult = function() {
+            document.getElementById('reviewSection').classList.add('hidden');
+            document.getElementById('resultSection').classList.remove('hidden');
+        }
+
+        window.openTutorModal = function() {
+            updateTutorUI();
+            document.getElementById('tutorModal').classList.remove('hidden');
+        }
+
+        window.closeTutorModal = function() {
+            document.getElementById('tutorModal').classList.add('hidden');
+        }
+
+        function updateTutorUI() {
+            const container = document.getElementById('tutorRecordsContainer');
+            if (!container) return;
+
+            if (cloudRecords.length === 0) {
+                container.innerHTML = `<div class="text-center py-6 text-slate-400 text-xs">Belum ada riwayat pengerjaan tes dari siswa yang masuk.</div>`;
+                return;
+            }
+
+            let html = '';
+            cloudRecords.forEach((rec) => {
+                let formattedDate = rec.timestamp ? new Date(rec.timestamp).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }) : 'Baru saja';
+                html += `
+                    <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200/60 flex justify-between items-center text-xs">
+                        <div>
+                            <p class="font-bold text-slate-800 text-sm">${rec.name} <span class="font-normal text-slate-500">(${rec.class})</span></p>
+                            <p class="text-slate-400 mt-0.5">${formattedDate}</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="inline-block px-3 py-1 rounded-xl bg-indigo-100 text-indigo-700 font-extrabold text-base">${rec.score}</span>
+                        </div>
+                    </div>`;
+            });
+            container.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
